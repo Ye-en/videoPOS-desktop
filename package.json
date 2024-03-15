@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "nvmrc": "node -v > .numrc",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri"
