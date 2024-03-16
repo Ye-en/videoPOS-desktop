@@ -12,24 +12,11 @@ env:
   APP_NAME: "VideoPOS"
 
 jobs:
-  changelog:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Build changelog
-        id: build_changelog
-        run: |
-          PREV_TAG=$(git tag --list v* | tail -n2 | head -n1)
-          echo "changelog=$(git log $PREV_TAG...${{ github.ref_name }} --pretty=format:"- %s")" >> $GITHUB_OUTPUT
-    outputs:
-      changelog: ${{ steps.build_changelog.outputs.changelog }}
-
   build-and-release-windows:
     permissions:
       contents: write
-    needs: [changelog]
+    strategy:
+      fail-fast: false
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -46,7 +33,7 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
-      - name: Build Tauri app for Windows
+      - name: Build Tauri App for Windows
         uses: tauri-apps/tauri-action@v0
         if: github.ref_type == 'tag'
         env:
@@ -61,10 +48,3 @@ jobs:
           releaseDraft: true
           prerelease: false
 
-      - name: Upload Windows artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'Windows Installers'
-          path: |
-            src-tauri/target/release/bundle/msi/*.msi
-            src-tauri/target/release/bundle/nsis/*.exe
