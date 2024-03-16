@@ -57,7 +57,7 @@ jobs:
           workspaces: './src-tauri -> target'
 
       - name: Install frontend
-        run: npm init
+        run: npm install
 
 
       - name: CI Upload Windows
