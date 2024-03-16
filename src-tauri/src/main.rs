@@ -10,8 +10,12 @@ use license::manager::LicenseManager;
 use tauri::Manager;
 mod cmd;
 use env_logger;
+use auto_launch::AutoLaunch;
+
+
 
 fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+
     // can do more checks here for license
     let data_path = app.path_resolver().app_data_dir().unwrap();
     fs::create_dir_all(data_path).unwrap();
@@ -33,6 +37,15 @@ fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn main() {
+    let app_name = "VideoPOS";
+    let app_path = "C:\\path\\to\\the-app.exe";
+    let args = &["--minimized"];
+    let auto = AutoLaunch::new(app_name, app_path, true, args);
+
+    // enable the auto launch
+    auto.enable().is_ok();
+    auto.is_enabled().unwrap();
+
     env_logger::try_init().unwrap();
     tauri::Builder::default()
         .setup(setup)

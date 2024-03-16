@@ -23,6 +23,7 @@ machineid-rs = "1.2.4"
 chrono = "0.4.31"
 log = "0.4.20"
 env_logger = "0.10.1"
+auto-launch = "0.5.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
