@@ -41,8 +41,8 @@
         "icons/icon.ico"
       ],
       "externalBin": [
-        "binaries/happytime-onvif-server-x64",
-        "binaries/happytime-onvif-server-x64/happytime-rtsp-server"
+        "binaries/happytime-onvif-server-x64/OnvifServer",
+        "binaries/happytime-onvif-server-x64/happytime-rtsp-server/RtspServer"
       ],
       "resources": [
       ]

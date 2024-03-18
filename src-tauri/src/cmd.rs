@@ -123,7 +123,7 @@ fn set_config(new_config: Config, app_handle: tauri::AppHandle) -> Result<(), St
 
     // Write the updated XML back to the file
     let result = writer.into_inner().into_inner();
-    fs::write("path/to/config.xml", &result).map_err(|e| e.to_string())?;
+    fs::write(config_path, &result).map_err(|e| e.to_string())?;
 
     Ok(())
 }
