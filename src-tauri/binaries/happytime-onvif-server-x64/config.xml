@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-    <server_ip></server_ip>
+    <server_ip>192.168.2.123</server_ip>
     <http_enable>1</http_enable>
-    <http_port>8000</http_port>
+    <http_port>10000</http_port>
     <https_enable>0</https_enable>
     <https_port>8443</https_port>
     <cert_file>ssl.ca</cert_file>
@@ -12,10 +12,10 @@
     <log_enable>1</log_enable>
     <log_level>1</log_level>
     <information>
-        <Manufacturer>Happytimesoft</Manufacturer>
-        <Model>IPCamera</Model>
+        <Manufacturer>Videopos</Manufacturer>
+        <Model>IPKassa</Model>
         <FirmwareVersion>2.4</FirmwareVersion>
-        <SerialNumber>123456</SerialNumber>
+        <SerialNumber>help@romka.kz</SerialNumber>
         <HardwareId>1.0</HardwareId>
     </information>
     <user>
@@ -23,67 +23,29 @@
         <password>admin</password>
         <userlevel>Administrator</userlevel>
     </user>
-    <user>
-        <username>user</username>
-        <password>123456</password>
-        <userlevel>User</userlevel>
-    </user>		
     <profile>
         <video_source>
-            <width>1280</width>
-            <height>720</height>
+            <width>1920</width>
+            <height>1080</height>
         </video_source>
         <video_encoder>
-            <width>1280</width>
-            <height>720</height>
-            <quality>4</quality>
+            <width>1920</width>
+            <height>1080</height>
+            <quality>16</quality>
             <session_timeout>10</session_timeout>			
-            <framerate>25</framerate>
-            <encoding_interval>1</encoding_interval>
-            <bitrate_limit>2048</bitrate_limit>
+            <framerate>20</framerate>
+            <encoding_interval>20</encoding_interval>
+            <bitrate_limit>3072</bitrate_limit>
             <encoding>H264</encoding>
             <h264>
                 <gov_length>25</gov_length>
                 <h264_profile>Main</h264_profile>
             </h264>
         </video_encoder>
-        <audio_source></audio_source>
-        <audio_encoder>
-            <session_timeout>10</session_timeout>
-            <sample_rate>8</sample_rate>
-            <bitrate>64</bitrate>
-            <encoding>G711</encoding>
-        </audio_encoder>
-        <stream_uri append_params="0"></stream_uri>
+       
+        <stream_uri append_params="1">rtsp://192.168.2.123/screenlive</stream_uri>
     </profile>	
-    <profile>
-        <video_source>
-            <width>1280</width>
-            <height>720</height>
-        </video_source>
-        <video_encoder>
-            <width>640</width>
-            <height>480</height>
-            <quality>4</quality>
-            <session_timeout>10</session_timeout>			
-            <framerate>25</framerate>
-            <encoding_interval>1</encoding_interval>
-            <bitrate_limit>2048</bitrate_limit>
-            <encoding>H264</encoding>
-            <h264>
-                <gov_length>25</gov_length>
-                <h264_profile>Main</h264_profile>
-            </h264>
-        </video_encoder>
-        <audio_source></audio_source>
-        <audio_encoder>
-            <session_timeout>10</session_timeout>
-            <sample_rate>8</sample_rate>
-            <bitrate>64</bitrate>
-            <encoding>G711</encoding>
-        </audio_encoder>
-        <stream_uri append_params="0"></stream_uri>
-    </profile>
+
     <scope>onvif://www.onvif.org/location/country/china</scope>
     <scope>onvif://www.onvif.org/name/IP-Camera</scope>
     <scope>onvif://www.onvif.org/hardware/HI3518C</scope>	
