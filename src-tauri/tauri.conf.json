@@ -24,8 +24,6 @@
         "execute": true,
         "sidecar": true,
         "scope": [
-          { "name": "binaries/happytime-onvif-server-x64/OnvifServer", "sidecar": true },
-          { "name": "binaries/happytime-onvif-server-x64/happytime-rtsp-server/RtspServer", "sidecar": true }
         ]
       }
     },
@@ -41,8 +39,6 @@
         "icons/icon.ico"
       ],
       "externalBin": [
-        "binaries/happytime-onvif-server-x64/OnvifServer",
-        "binaries/happytime-onvif-server-x64/happytime-rtsp-server/RtspServer"
       ],
       "resources": [
       ]

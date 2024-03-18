@@ -8,7 +8,6 @@ use std::fs;
 use api::Api;
 use license::manager::LicenseManager;
 use tauri::{Manager, WindowEvent};
-
 use std::sync::{Arc, Mutex};
 mod cmd;
 use env_logger;
@@ -92,35 +91,8 @@ fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     } else {
         main_window.lock().unwrap().eval("window.location.href = '/home'").unwrap();
 
-        let rtsp_child = start_sidecar("binaries/happytime-onvif-server-x64/happytime-rtsp-server/RtspServer");
-        let onvif_child = start_sidecar("binaries/happytime-onvif-server-x64/OnvifServer");
-
-
-        *rtsp_server.lock().unwrap() = Some(rtsp_child);
-        *onvif_server.lock().unwrap() = Some(onvif_child);
     }
 
-    // Periodically check the license validity in a separate thread
-    let rtsp_server_clone = rtsp_server.clone();
-    let onvif_server_clone = onvif_server.clone();
-    let app_handle = app.app_handle();
-    thread::spawn(move || {
-        loop {
-            thread::sleep(Duration::from_secs(60)); // check every 60 seconds
-            let valid = tauri::async_runtime::block_on(async {
-                manager.is_valid(&app_handle).await.unwrap()
-            });
-            if !valid {
-                if let Some(child) = rtsp_server_clone.lock().unwrap().as_mut() {
-                    stop_sidecar(child);
-                }
-                if let Some(child) = onvif_server_clone.lock().unwrap().as_mut() {
-                    stop_sidecar(child);
-                }
-                break;
-            }
-        }
-    });
 
     Ok(())
 }
