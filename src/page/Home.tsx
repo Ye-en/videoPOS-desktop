@@ -9,20 +9,18 @@ interface License {
 }
 
 interface Config {
-  server_ip: string,
-  stream_uri: string,
+  server_ip: string;
+  stream_uri: string;
   fps: number;
   encoding: string;
   dimensions: string;
 }
-
 
 invoke('run_onvif_server').then(() => {
   console.log('Onvif server is running.');
 }).catch((error) => {
   console.error('Failed to start Onvif server:', error);
 });
-
 
 export default function HomePage() {
   const [license, setLicense] = useState<License>();
@@ -33,6 +31,7 @@ export default function HomePage() {
     encoding: '',
     dimensions: '',
   });
+  const [currentIP, setCurrentIP] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -41,12 +40,24 @@ export default function HomePage() {
         setLicense(licenseData);
         const configData: Config = await invoke('get_config');
         setConfig(configData);
+        const ip: string = await invoke('get_local_ip');
+        setCurrentIP(ip);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
     fetchData();
   }, []);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setConfig(prevConfig => ({ ...prevConfig, [name]: value }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    await updateConfig();
+  };
 
   async function revoke() {
     try {
@@ -64,53 +75,44 @@ export default function HomePage() {
     }
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setConfig(prevConfig => ({ ...prevConfig, [name]: value }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    await updateConfig();
-  };
-
   return (
     <div>
       <h1>Welcome {license?.username}!</h1>
       <div>
-      <p>Your license is <code>{license?.value}</code></p>
-      <p>hwid is <code>{license?.hwid}</code></p>
-      <p>Expiration date <code>{license?.expire}</code></p>
-      <button onClick={revoke}>Revoke license</button>
-
+        <p>Your license is <code>{license?.value}</code></p>
+        <p>hwid is <code>{license?.hwid}</code></p>
+        <p>Expiration date <code>{license?.expire}</code></p>
+        <button onClick={revoke}>Revoke license</button>
       </div>
       <div>
         <h1>Settings</h1>
-        <label>
-        Server IP:
-        <input type="text" name="server_ip" value={config.server_ip} onChange={handleChange} />
-        </label>
-        <label>
-        Stream URI:
-        <input type="text" name="stream_uri" value={config.stream_uri} onChange={handleChange} />
-        </label>
-      <form onSubmit={handleSubmit}>
-        <label>
-          FPS:
-          <input type="number" name="fps" value={config.fps.toString()} onChange={handleChange} />
-        </label>
-        <label>
-          Encoding:
-          <input type="text" name="encoding" value={config.encoding} onChange={handleChange} />
-        </label>
-        <label>
-          Dimensions:
-          <input type="text" name="dimensions" value={config.dimensions} onChange={handleChange} />
-        </label>
-        <button type="submit">Update Config</button>
-      </form>
+
+        <p>Current IP: <code>{currentIP}</code></p>
+
+        <form onSubmit={handleSubmit}>
+          <label>
+            Server IP:
+            <input type="text" name="server_ip" value={config.server_ip} onChange={handleChange} />
+          </label>
+          <label>
+            Stream URI:
+            <input type="text" name="stream_uri" value={config.stream_uri} onChange={handleChange} />
+          </label>
+          <label>
+            FPS:
+            <input type="number" name="fps" value={config.fps.toString()} onChange={handleChange} />
+          </label>
+          <label>
+            Encoding:
+            <input type="text" name="encoding" value={config.encoding} onChange={handleChange} />
+          </label>
+          <label>
+            Dimensions:
+            <input type="text" name="dimensions" value={config.dimensions} onChange={handleChange} />
+          </label>
+          <button type="submit">Update Config</button>
+        </form>
       </div>
-      
     </div>
   );
 }

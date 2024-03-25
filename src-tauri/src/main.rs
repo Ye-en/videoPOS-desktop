@@ -91,7 +91,7 @@ fn main() {
     env_logger::try_init().unwrap();
     tauri::Builder::default()
         .setup(setup)
-        .invoke_handler(tauri::generate_handler![cmd::is_valid, cmd::register, cmd::revoke, cmd::get_license, cmd::run_onvif_server])
+        .invoke_handler(tauri::generate_handler![cmd::is_valid, cmd::register, cmd::revoke, cmd::get_license, cmd::run_onvif_server, cmd::address, cmd::get_local_ip])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
