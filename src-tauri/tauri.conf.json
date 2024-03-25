@@ -43,7 +43,6 @@
         "bin/binaries/OnvifServer"
       ],
       "resources": [
-        "bin/binaries/OnvifServer"
       ]
       
     },
