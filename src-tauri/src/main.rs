@@ -36,7 +36,7 @@ fn setup_auto_launch() {
     let app_name = "VideoPOS";
     let app_path = std::env::current_exe().expect("Failed to get current executable path").to_str().unwrap().to_string();
 
-    let auto = AutoLaunch::new(app_name, app_path, &[] as &[&str]);
+    let auto = AutoLaunch::new(app_name, &app_path, &[] as &[&str]);
     
     // Enable or disable based on your logic
     if !auto.is_enabled().unwrap() {

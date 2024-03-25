@@ -40,10 +40,12 @@
         "icons/icon.ico"
       ],
       "externalBin": [
-        "binaries/*"
+        "binaries/*", 
+        "resources/*"
       ],
       "resources": [
-        "binaries/*"
+        "binaries/*",
+        "resources/*"
       ]
       
     },
