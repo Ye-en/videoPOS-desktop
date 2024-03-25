@@ -3,6 +3,7 @@ use crate::config;
 use crate::license::License;
 use tauri::Manager;
 use crate::license::manager::LicenseManager;
+use tauri::api::process::Command;
 
 #[tauri::command]
 pub async fn is_valid(app: tauri::AppHandle) -> Result<bool, String> {
@@ -50,7 +51,24 @@ pub async fn get_license(app: tauri::AppHandle) -> Result<License, String> {
 
 #[tauri::command]
 pub fn run_onvif_server(app: tauri::AppHandle) -> Result<(), String> {
-    
+        // `new_sidecar()` expects just the filename, NOT the whole path like in JavaScript
+    let (mut rx, mut child) = Command::new_sidecar("OnvifServer")
+    .expect("failed to create `sidecar` binary command")
+    .spawn()
+    .expect("Failed to spawn sidecar");
+
+    tauri::async_runtime::spawn(async move {
+    // read events such as stdout
+    while let Some(event) = rx.recv().await {
+    if let CommandEvent::Stdout(line) = event {
+        window
+        .emit("message", Some(format!("'{}'", line)))
+        .expect("failed to emit event");
+        // write to stdin
+        child.write("message from Rust\n".as_bytes()).unwrap();
+    }
+    }
+    });
     Ok(())
 }
 
