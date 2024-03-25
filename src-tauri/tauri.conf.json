@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "VideoPOS",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
@@ -24,7 +24,7 @@
         "execute": true,
         "sidecar": true,
         "scope": [
-          { "name": "binaries/OnvifServer", "sidecar": true }
+          { "name": "../bin/binaries/OnvifServer", "sidecar": true }
         ]
       }
     },
@@ -40,12 +40,10 @@
         "icons/icon.ico"
       ],
       "externalBin": [
-        "binaries/*", 
-        "resources/*"
+        "../bin/binaries/OnvifServer"
       ],
       "resources": [
-        "binaries/*",
-        "resources/*"
+        "../bin/binaries/OnvifServer"
       ]
       
     },
