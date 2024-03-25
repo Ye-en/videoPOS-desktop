@@ -16,6 +16,14 @@ interface Config {
   dimensions: string;
 }
 
+
+invoke('run_onvif_server').then(() => {
+  console.log('Onvif server is running.');
+}).catch((error) => {
+  console.error('Failed to start Onvif server:', error);
+});
+
+
 export default function HomePage() {
   const [license, setLicense] = useState<License>();
   const [config, setConfig] = useState<Config>({

@@ -46,16 +46,11 @@ pub async fn get_license(app: tauri::AppHandle) -> Result<License, String> {
     Ok(license)
 }
 
-use quick_xml::{Reader, Writer, events::{Event, BytesEnd, BytesStart, BytesText}};
-use std::fs::{self, File};
-use std::io::{Cursor, BufReader};
-use std::path::PathBuf;
 
-#[derive(serde::Deserialize)]
-struct Config {
-    server_ip: String,
-    stream_uri: String,
-    fps: i32,
-    encoding: String,
-    dimensions: String,
+
+#[tauri::command]
+pub fn run_onvif_server(app: tauri::AppHandle) -> Result<(), String> {
+    
+    Ok(())
 }
+

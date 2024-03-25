@@ -8,22 +8,12 @@ use std::fs;
 use api::Api;
 use license::manager::LicenseManager;
 use tauri::{Manager, WindowEvent};
+
 use std::sync::{Arc, Mutex};
 mod cmd;
 use env_logger;
 use auto_launch::AutoLaunch;
-use std::process::{Child, Command};
 
-fn start_sidecar(path: &str) -> Child {
-    Command::new(path)
-        .spawn()
-        .expect("failed to start sidecar")
-}
-
-fn stop_sidecar(child: &mut Child) {
-    child.kill().expect("failed to kill sidecar process");
-    child.wait().expect("failed to wait on sidecar process");
-}
 
 
 #[cfg(target_os = "macos")]
@@ -46,8 +36,8 @@ fn setup_auto_launch() {
     let app_name = "VideoPOS";
     let app_path = std::env::current_exe().expect("Failed to get current executable path").to_str().unwrap().to_string();
 
-    let auto = AutoLaunch::new(app_name, &app_path, &[] as &[&str]);
-        
+    let auto = AutoLaunch::new(app_name, app_path, &[] as &[&str]);
+    
     // Enable or disable based on your logic
     if !auto.is_enabled().unwrap() {
         auto.enable().unwrap();
@@ -91,8 +81,8 @@ fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     } else {
         main_window.lock().unwrap().eval("window.location.href = '/home'").unwrap();
 
+        
     }
-
 
     Ok(())
 }
@@ -101,7 +91,7 @@ fn main() {
     env_logger::try_init().unwrap();
     tauri::Builder::default()
         .setup(setup)
-        .invoke_handler(tauri::generate_handler![cmd::is_valid, cmd::register, cmd::revoke, cmd::get_license])
+        .invoke_handler(tauri::generate_handler![cmd::is_valid, cmd::register, cmd::revoke, cmd::get_license, cmd::run_onvif_server])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

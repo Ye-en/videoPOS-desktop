@@ -24,6 +24,7 @@
         "execute": true,
         "sidecar": true,
         "scope": [
+          { "name": "binaries/OnvifServer", "sidecar": true }
         ]
       }
     },
@@ -39,8 +40,10 @@
         "icons/icon.ico"
       ],
       "externalBin": [
+        "binaries/*"
       ],
       "resources": [
+        "binaries/*"
       ]
       
     },
